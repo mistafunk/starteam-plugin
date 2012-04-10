@@ -12,6 +12,12 @@
 	<f:entry title="Port" help="/plugin/starteam/help/stport.html">
 		<f:textbox name="starteam.port" value="${scm.port}" />
 	</f:entry>
+	<f:entry title="Cache Agent Hostname">
+		<f:textbox name="starteam.cacheagenthostname" value="${scm.cacheagenthostname}" />
+	</f:entry>
+	<f:entry title="Cache Agent Port">
+		<f:textbox name="starteam.cacheagentport" value="${scm.cacheagentport}" />
+	</f:entry>
 	<f:entry title="Project name" help="/plugin/starteam/help/stprojectname.html">
 		<f:textbox name="starteam.projectname" value="${scm.projectname}" />
 	</f:entry>

@@ -42,6 +42,8 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 	private final BuildListener listener;
 	private final String hostname;
 	private final int port;
+	private final String cacheAgentHostname;
+	private final int cacheAgentPort;
 	private final String user;
 	private final String passwd;
 	private final String projectname;
@@ -76,12 +78,14 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 	 * @param listener
 	 * 		the build listener
 	 */
-	public StarTeamCheckoutActor(String hostname, int port, String user,
+	public StarTeamCheckoutActor(String hostname, int port, String cacheAgentHostname, int cacheAgentPort, String user,
 			String passwd, String projectname, String viewname,
 			String foldername, StarTeamViewSelector config, FilePath changelogFile, BuildListener listener,
 			AbstractBuild<?, ?> build, boolean isRemote ) {
 		this.hostname = hostname;
 		this.port = port;
+		this.cacheAgentHostname = cacheAgentHostname;
+		this.cacheAgentPort = cacheAgentPort;
 		this.user = user;
 		this.passwd = passwd;
 		this.projectname = projectname;
@@ -124,7 +128,7 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 	public Boolean invoke(File workspace, VirtualChannel channel)
 			throws IOException {
 		StarTeamConnection connection = new StarTeamConnection(
-				hostname, port, user, passwd,
+				hostname, port, cacheAgentHostname, cacheAgentPort, user, passwd,
 				projectname, viewname, foldername, config);
 		try {
 			connection.initialize();

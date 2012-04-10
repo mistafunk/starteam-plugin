@@ -54,6 +54,8 @@ public class StarTeamConnection implements Serializable {
 
 	private final String hostName;
 	private final int port;
+	private final String cacheAgentHostName;
+	private final int cacheAgentPort;
 	private final String userName;
 	private final String password;
 	private final String projectName;
@@ -87,10 +89,12 @@ public class StarTeamConnection implements Serializable {
 	 *            configuration selector 
 	 *            in case of checking from label, promotion state or time
 	 */
-	public StarTeamConnection(String hostName, int port, String userName, String password, String projectName, String viewName, String folderName, StarTeamViewSelector configSelector) {
+	public StarTeamConnection(String hostName, int port, String cacheAgentHostName, int cacheAgentPort, String userName, String password, String projectName, String viewName, String folderName, StarTeamViewSelector configSelector) {
 		checkParameters(hostName, port, userName, password, projectName, viewName, folderName);
 		this.hostName = hostName;
 		this.port = port;
+		this.cacheAgentHostName = cacheAgentHostName;
+		this.cacheAgentPort = cacheAgentPort;
 		this.userName = userName;
 		this.password = password;
 		this.projectName = projectName;
@@ -101,6 +105,7 @@ public class StarTeamConnection implements Serializable {
 
 	public StarTeamConnection(StarTeamConnection oldConnection, StarTeamViewSelector configSelector) {
 		this(oldConnection.hostName, oldConnection.port,
+				oldConnection.cacheAgentHostName, oldConnection.cacheAgentPort,
 				oldConnection.userName, oldConnection.password,
 				oldConnection.projectName, oldConnection.viewName,
 				oldConnection.folderName, configSelector);
@@ -111,6 +116,11 @@ public class StarTeamConnection implements Serializable {
 		serverInfo.setHost(this.hostName);
 		serverInfo.setPort(this.port);
 
+		serverInfo.setEnableCacheAgentForFileContent(true);
+		serverInfo.setEnableCacheAgentForObjectProperties(true);
+		serverInfo.setMPXCacheAgentAddress(this.cacheAgentHostName);
+		serverInfo.setMPXCacheAgentPort(this.cacheAgentPort);
+		
 		populateDescription(serverInfo);
 
 		return serverInfo;

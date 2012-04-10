@@ -31,6 +31,9 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 
 	private int port;
 
+	private String cacheAgentHostname;
+	private int cacheAgentPort;
+	
 	private String user;
 
 	private String passwd;
@@ -60,11 +63,13 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 	 * @param listener Hudson task listener.
 	 * @param lastBuild 
 	 */
-	public StarTeamPollingActor(String hostname, int port, String user,
+	public StarTeamPollingActor(String hostname, int port, String cacheAgentHostName, int cacheAgentPort, String user,
 			String passwd, String projectname, String viewname,
 			String foldername, StarTeamViewSelector config, TaskListener listener, AbstractBuild lastBuild) {
 		this.hostname = hostname;
 		this.port = port;
+		this.cacheAgentHostname = cacheAgentHostName;
+		this.cacheAgentPort = cacheAgentPort;
 		this.user = user;
 		this.passwd = passwd;
 		this.projectname = projectname;
@@ -84,7 +89,7 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 	public Boolean invoke(File f, VirtualChannel channel) throws IOException {
 
 		StarTeamConnection connection = new StarTeamConnection(
-				hostname, port, user, passwd,
+				hostname, port, cacheAgentHostname, cacheAgentPort, user, passwd,
 				projectname, viewname, foldername, config);
 		try {
 			connection.initialize();

@@ -49,6 +49,8 @@ public class StarTeamSCM extends SCM {
 	private final String foldername;
 	private final String hostname;
 	private final int port;
+	private final String cacheAgentHostName;
+	private final int cacheAgentPort;
 	private final String labelname;
 	private final boolean promotionstate;
 
@@ -81,10 +83,12 @@ public class StarTeamSCM extends SCM {
 	 *
 	 */
 	@DataBoundConstructor
-	public StarTeamSCM(String hostname, int port, String projectname,
+	public StarTeamSCM(String hostname, int port, String cacheagenthostname, int cacheagentport, String projectname,
 			String viewname, String foldername, String username, String password, String labelname, boolean promotionstate) {
 		this.hostname = hostname;
 		this.port = port;
+		this.cacheAgentHostName = cacheagenthostname;
+		this.cacheAgentPort = cacheagentport;
 		this.projectname = projectname;
 		this.viewname = viewname;
 		this.foldername = foldername;
@@ -125,7 +129,7 @@ public class StarTeamSCM extends SCM {
 
 	    // Create an actor to do the checkout, possibly on a remote machine
 	    StarTeamCheckoutActor co_actor = new StarTeamCheckoutActor(hostname,
-	            port, user, passwd, projectname, viewname, foldername, config,
+	            port, cacheAgentHostName, cacheAgentPort, user, passwd, projectname, viewname, foldername, config,
 	            changeLogFilePath, listener, build, workspace.isRemote());
 	    if (workspace.act(co_actor)) {
 	        // change log is written during checkout (only one pass for
@@ -175,6 +179,7 @@ public class StarTeamSCM extends SCM {
 
 		// Create an actor to do the polling, possibly on a remote machine
 		StarTeamPollingActor p_actor = new StarTeamPollingActor(hostname, port,
+				cacheAgentHostName, cacheAgentPort, 
 				user, passwd, projectname, viewname, foldername,
 				config, listener,
 				lastBuild);
